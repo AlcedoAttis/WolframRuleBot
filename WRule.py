@@ -10,13 +10,13 @@ draft = True
 
 
 def rule_generation():
-    # return 2229223812056 // makes an ABACABA pattern
+    # return 2229223812056  # makes an ABACABA pattern
     return np.random.randint(0, 7625597484987)
 
 
 def setup_generation():
-    width = 160
-    height = 1080
+    width = 256
+    height = 256
     inits = np.random.randint(0, 3, size=width)
     return {'pixel_factor': 2, 'width': width, 'height': height, 'initial_cond': inits}
 
@@ -86,7 +86,7 @@ def wolfram_rule(draft, pixel_factor, width, height, initial_cond):
 
 def post(draft, username, password, rule):
     if draft:
-        return True
+        return False
     bot = Bot()
     bot.login(username=username, password=password)
     worked = bot.upload_photo('temporary.png', caption="Rule: {0}".format(rule))
@@ -98,5 +98,5 @@ def post(draft, username, password, rule):
 img, rule = wolfram_rule(draft, **setup_generation())
 img.save('temporary.png', "PNG")
 # Posting
-while not post(draft, username="here username", password="here password", rule=rule):
+while not post(draft, username="usernamehere", password="pwhere", rule=str(rule)):
     time.sleep(60)  # Idk why, aber manchmal machen die requests nen 500 error, hoffentlich liegts nich am bild
